@@ -1,0 +1,58 @@
+{
+  "name": "slp-mdm",
+  "version": "0.0.1",
+  "description": "Create Simple Ledger Protocol OP_RETURN data segments with ease!",
+  "author": "blockparty-sh",
+  "license": "MIT",
+  "repository": "https://github.com/simpleledger/slp-metadatamaker.js",
+  "bugs": "https://github.com/simpleledger/slp-metadatamaker.js/issues",
+  "keywords": [
+    "SLP",
+    "simple",
+    "ledger",
+    "protocol",
+    "metadata",
+    "op_return",
+    "maker",
+    "creator",
+    "builder"
+  ],
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
+  "unpkg": "dist/slp-mdm.min.js",
+  "scripts": {
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "prebuild": "npm run lint",
+    "build": "tsc && browserify dist/index.js -p tsify --standalone slp-mdm --debug -o dist/slp-mdm.js && uglifyjs dist/slp-mdm.js --compress --source-map content=inline -o dist/slp-mdm.min.js",
+    "test": "npm run build && nyc mocha",
+    "prepare": "npm run lint && npm run test && npm run build"
+  },
+  "dependencies": {
+    "bignumber.js": "^9.0.0"
+  },
+  "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.9.3",
+    "browserify": "^16.5.1",
+    "chai": "^4.2.0",
+    "chai-bytes": "^0.1.2",
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.0",
+    "ts-node": "^8.8.1",
+    "tsify": "^4.0.1",
+    "tslint": "^6.1.0",
+    "typescript": "^3.8.3",
+    "uglify-es": "^3.3.9"
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "include": [
+      "lib"
+    ],
+    "all": true
+  }
+}
