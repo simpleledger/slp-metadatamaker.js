@@ -8,10 +8,14 @@ slp-mdm is a JavaScript Library for building [Simple Ledger Protocol (SLP)](http
 # Installation
 
 #### For node.js
-`npm install slp-mdm`
+```bash
+npm install slp-mdm
+```
 
 #### For browser
-`<script src='https://unpkg.com/slp-mdm'></script>`
+```html
+<script src='https://unpkg.com/slp-mdm'></script>
+```
 
 
 # Examples
@@ -45,7 +49,7 @@ const buf = slpMdm.TokenType1.genesis(
 
 NFT1-child tokens have quantity set to 1, no baton vout (i.e. future minting impossible), and have 0 decimal places. Because of these differences, the signature for this method excludes these parameters.
 
-```
+```js
 const slpMdm = require('slp-mdm');
 const buf = slpMdm.NFT1.Child.genesis(
   'IVAN',                                                             // symbol
