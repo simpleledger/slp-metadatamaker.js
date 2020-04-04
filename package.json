@@ -1,6 +1,6 @@
 {
   "name": "slp-mdm",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Create Simple Ledger Protocol OP_RETURN data segments with ease!",
   "author": "blockparty-sh",
   "license": "MIT",

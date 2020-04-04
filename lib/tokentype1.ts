@@ -27,7 +27,7 @@ export default {
 
   mint: (
     tokenIdHex:    string,
-    mintBatonVout: number,
+    mintBatonVout: number|null,
     quantity:      BN
   ): Buffer => createOpReturnMint(
     0x01,
