@@ -30,7 +30,7 @@ Create a new normal token. You can also use `NFT1.Group.genesis` for this. `NFT1
 
 ```js
 const slpMdm = require('slp-mdm');
-const buf = TokenType1.genesis(
+const buf = slpMdm.TokenType1.genesis(
   'TOK',                                                              // symbol
   'token_name',                                                       // name
   'https://fountainhead.cash/document.pdf',                           // document_uri
@@ -47,7 +47,7 @@ NFT1-child tokens have quantity set to 1, no baton vout (i.e. future minting imp
 
 ```
 const slpMdm = require('slp-mdm');
-const buf = NFT1.Child.genesis(
+const buf = slpMdm.NFT1.Child.genesis(
   'IVAN',                                                             // symbol
   'gorilla'                                                           // name
   'https://fountainhead.cash/document.pdf',                           // document_uri
@@ -61,7 +61,7 @@ Mints additional tokens. You can also use `NFT1.Group.mint`, NFT1.Child does not
 
 ```js
 const slpMdm = require('slp-mdm');
-const buf = TokenType1.mint(
+const buf = slpMdm.TokenType1.mint(
   'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', // token_id
   null,                                                               // mint_baton_vout 
   new slpMdm.BN("500")                                                // quantity (needs to be BigNumber)
@@ -74,7 +74,7 @@ Transfer tokens to new UTXOs. You can also use `NFT1.Group.send`, or `NFT1.Child
 
 ```js
 const slpMdm = require('slp-mdm');
-const buf = TokenType1.send(
+const buf = slpMdm.TokenType1.send(
   'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', // token_id
   [                                                                   // slp_amounts to send
     new slpMdm.BN("100"), 
@@ -104,6 +104,9 @@ slp-mdm was designed to be very easy to port to other languages. If you are work
 
 
 # Change Log
+
+### 0.0.2
+- Fixed README
 
 ### 0.0.1
 - Initial release
