@@ -108,7 +108,7 @@ export const createOpReturnMint = (
   }
 
   if (! tokenIdHex.match(/^[0-9a-fA-F]{64}$/)) {
-    throw new Error('tokenIdHex no matchy');
+    throw new Error('tokenIdHex does not pass regex');
   }
   if (mintBatonVout !== null) {
     if (mintBatonVout < 2 || mintBatonVout > 0xFF) {
@@ -139,7 +139,7 @@ export const createOpReturnSend = (
   }
 
   if (! tokenIdHex.match(/^[0-9a-fA-F]{64}$/)) {
-    throw new Error('tokenIdHex no matchy');
+    throw new Error('tokenIdHex does not pass regex');
   }
 
   if (slpAmounts.length < 1) {
