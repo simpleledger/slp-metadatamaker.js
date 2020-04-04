@@ -100,7 +100,7 @@ export const createOpReturnGenesis = (
 export const createOpReturnMint = (
   versionType:   number,
   tokenIdHex:    string,
-  mintBatonVout: number,
+  mintBatonVout: number|null,
   quantity:      BN
 ): Buffer => {
   if (! [0x01, 0x41, 0x81].includes(versionType)) {
