@@ -109,6 +109,9 @@ slp-mdm was designed to be very easy to port to other languages. If you are work
 
 # Change Log
 
+### 0.0.3
+- Improved some error messages 
+
 ### 0.0.2
 - Fixed README
 
