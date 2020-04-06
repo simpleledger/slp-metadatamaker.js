@@ -273,14 +273,29 @@ describe('util', () => {
     expect(result).to.equal('6a04534c500001010747454e455349534c004c004c004c0001004c00080000000000000064');
   });
 
+  it('OK: createOpReturnGenesis (Buffer)', () => {
+    const result = createOpReturnGenesis(0x01, Buffer.from(''), Buffer.from(''), Buffer.from(''), Buffer.from(''), 0, null, new BN(0x64)).toString('hex');
+    expect(result).to.equal('6a04534c500001010747454e455349534c004c004c004c0001004c00080000000000000064');
+  });
+
   it('OK: createOpReturnMint', () => {
     const result = createOpReturnMint(0x01, 'f'.repeat(64), null, new BN(0x64)).toString('hex');
     expect(result).to.equal('6a04534c50000101044d494e5420ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff4c00080000000000000064');
   });
+  it('OK: createOpReturnMint (Buffer)', () => {
+    const result = createOpReturnMint(0x01, Buffer.from('f'.repeat(64), 'hex'), null, new BN(0x64)).toString('hex');
+    expect(result).to.equal('6a04534c50000101044d494e5420ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff4c00080000000000000064');
+  });
+
   it('OK: createOpReturnSend', () => {
     const result = createOpReturnSend(0x01, '8'.repeat(64), [new BN(0x42)]).toString('hex');
     expect(result).to.equal('6a04534c500001010453454e44208888888888888888888888888888888888888888888888888888888888888888080000000000000042');
   });
+  it('OK: createOpReturnSend (Buffer)', () => {
+    const result = createOpReturnSend(0x01, Buffer.from('8'.repeat(64), 'hex'), [new BN(0x42)]).toString('hex');
+    expect(result).to.equal('6a04534c500001010453454e44208888888888888888888888888888888888888888888888888888888888888888080000000000000042');
+  });
+
   it('(must be invalid: bad value): NFT1 Child Genesis with mint_baton_vout!==null', () => {
     expect(() => createOpReturnGenesis(0x41, '', '', '', '', 0, 2, new BN(0x01))).to.throw();
   });

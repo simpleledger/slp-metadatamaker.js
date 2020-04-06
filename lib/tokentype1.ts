@@ -10,7 +10,7 @@ export default {
     ticker:        string|Buffer,
     name:          string|Buffer,
     documentUrl:   string|Buffer,
-    documentHash:  string,
+    documentHash:  string|Buffer,
     decimals:      number,
     mintBatonVout: number|null,
     quantity:      BN
@@ -26,7 +26,7 @@ export default {
   ),
 
   mint: (
-    tokenIdHex:    string,
+    tokenIdHex:    string|Buffer,
     mintBatonVout: number|null,
     quantity:      BN
   ): Buffer => createOpReturnMint(
@@ -37,7 +37,7 @@ export default {
   ),
 
   send: (
-    tokenIdHex: string,
+    tokenIdHex: string|Buffer,
     slpAmounts: BN[]
   ): Buffer => createOpReturnSend(
     0x01,

@@ -42,7 +42,7 @@ export const createOpReturnGenesis = (
   ticker:        string|Buffer,
   name:          string|Buffer,
   documentUrl:   string|Buffer,
-  documentHash:  string,
+  documentHash:  string|Buffer,
   decimals:      number,
   mintBatonVout: number|null,
   quantity:      BN
@@ -51,12 +51,21 @@ export const createOpReturnGenesis = (
     throw new Error('unknown versionType');
   }
 
-  if (documentHash.length !== 0 && documentHash.length !== 64) {
-    throw new Error('documentHash must be either 0 or 32 hex bytes');
+  if (typeof(documentHash) === 'string') {
+    if (documentHash.length !== 0 && documentHash.length !== 64) {
+      throw new Error('documentHash must be either 0 or 32 hex bytes');
+    }
+    if (documentHash.length === 64 && ! documentHash.match(/^[0-9a-fA-F]{64}$/)) {
+      throw new Error('documentHash must be hex');
+    }
+
+    documentHash = Buffer.from(documentHash, 'hex');
+  } else {
+    if (documentHash.length !== 0 && documentHash.length !== 32) {
+      throw new Error('documentHash must be either 0 or 32 hex bytes');
+    }
   }
-  if (documentHash.length === 64 && ! documentHash.match(/^[0-9a-fA-F]{64}$/)) {
-    throw new Error('documentHash must be hex');
-  }
+
   if (decimals < 0 || decimals > 9) {
     throw new Error('decimals out of range');
   }
@@ -88,7 +97,7 @@ export const createOpReturnGenesis = (
     pushdata(Buffer.from(ticker)),
     pushdata(Buffer.from(name)),
     pushdata(Buffer.from(documentUrl)),
-    pushdata(Buffer.from(documentHash, 'hex')),
+    pushdata(documentHash),
     pushdata(Uint8Array.from([decimals])),
     pushdata(Uint8Array.from(mintBatonVout === null ? [] : [mintBatonVout])),
     pushdata(BNToInt64BE(quantity)),
@@ -99,7 +108,7 @@ export const createOpReturnGenesis = (
 
 export const createOpReturnMint = (
   versionType:   number,
-  tokenIdHex:    string,
+  tokenIdHex:    string|Buffer,
   mintBatonVout: number|null,
   quantity:      BN
 ): Buffer => {
@@ -107,9 +116,22 @@ export const createOpReturnMint = (
     throw new Error('unknown versionType');
   }
 
-  if (! tokenIdHex.match(/^[0-9a-fA-F]{64}$/)) {
-    throw new Error('tokenIdHex does not pass regex');
+  if (typeof(tokenIdHex) === 'string') {
+    if (! tokenIdHex.match(/^[0-9a-fA-F]{64}$/)) {
+      throw new Error('tokenIdHex does not pass regex');
+    }
+
+    if (tokenIdHex.length !== 64) {
+      throw new Error('tokenIdHex must be 32 bytes');
+    }
+
+    tokenIdHex = Buffer.from(tokenIdHex, 'hex');
+  } else {
+    if (tokenIdHex.length !== 32) {
+      throw new Error('tokenIdHex must be 32 bytes');
+    }
   }
+
   if (mintBatonVout !== null) {
     if (mintBatonVout < 2 || mintBatonVout > 0xFF) {
       throw new Error('mintBatonVout out of range (0x02 < > 0xFF)');
@@ -121,7 +143,7 @@ export const createOpReturnMint = (
     pushdata(Buffer.from("SLP\0")),
     pushdata(Uint8Array.from([versionType])), // versionType
     pushdata(Buffer.from("MINT")),
-    pushdata(Buffer.from(tokenIdHex, 'hex')),
+    pushdata(tokenIdHex),
     pushdata(Uint8Array.from(mintBatonVout === null ? [] : [mintBatonVout])),
     pushdata(BNToInt64BE(quantity)),
   ]);
@@ -131,15 +153,27 @@ export const createOpReturnMint = (
 
 export const createOpReturnSend = (
   versionType: number,
-  tokenIdHex:  string,
+  tokenIdHex:  string|Buffer,
   slpAmounts:  BN[]
 ): Buffer => {
   if (! [0x01, 0x41, 0x81].includes(versionType)) {
     throw new Error('unknown versionType');
   }
 
-  if (! tokenIdHex.match(/^[0-9a-fA-F]{64}$/)) {
-    throw new Error('tokenIdHex does not pass regex');
+  if (typeof(tokenIdHex) === 'string') {
+    if (! tokenIdHex.match(/^[0-9a-fA-F]{64}$/)) {
+      throw new Error('tokenIdHex does not pass regex');
+    }
+
+    if (tokenIdHex.length !== 64) {
+      throw new Error('tokenIdHex must be 32 bytes');
+    }
+
+    tokenIdHex = Buffer.from(tokenIdHex, 'hex');
+  } else {
+    if (tokenIdHex.length !== 32) {
+      throw new Error('tokenIdHex must be 32 bytes');
+    }
   }
 
   if (slpAmounts.length < 1) {
@@ -154,7 +188,7 @@ export const createOpReturnSend = (
     pushdata(Buffer.from("SLP\0")),
     pushdata(Uint8Array.from([versionType])), // versionType
     pushdata(Buffer.from("SEND")),
-    pushdata(Buffer.from(tokenIdHex, 'hex')),
+    pushdata(tokenIdHex),
     ...slpAmounts.map(v => pushdata(BNToInt64BE(v))),
   ]);
 

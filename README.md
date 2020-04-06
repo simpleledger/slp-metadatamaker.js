@@ -109,6 +109,9 @@ slp-mdm was designed to be very easy to port to other languages. If you are work
 
 # Change Log
 
+### 0.0.6
+- Allows for Buffer for documentHash and tokenIdHex
+
 ### 0.0.5
 - Perform strictNullChecks
 
