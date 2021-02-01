@@ -2,19 +2,19 @@ import BN from 'bignumber.js';
 
 export const pushdata = (buf: Buffer|Uint8Array): Buffer => {
   if (buf.length === 0) {
-    return Buffer.from(Uint8Array.from([0x4C, 0x00]));
+    return Buffer.from([0x4C, 0x00]);
   } else if (buf.length < 0x4E) {
-    return Buffer.concat([Uint8Array.from([buf.length]), buf]);
+    return Buffer.concat([Buffer.from([buf.length]), buf]);
   } else if (buf.length < 0xFF) {
-    return Buffer.concat([Uint8Array.from([0x4c, buf.length]), buf]);
+    return Buffer.concat([Buffer.from([0x4c, buf.length]), buf]);
   } else if (buf.length < 0xFFFF) {
     const tmp = Buffer.allocUnsafe(2);
     tmp.writeUInt16LE(buf.length, 0);
-    return Buffer.concat([Uint8Array.from([0x4d]), tmp, buf]);
+    return Buffer.concat([Buffer.from([0x4d]), tmp, buf]);
   } else if (buf.length < 0xFFFFFFFF) {
     const tmp = Buffer.allocUnsafe(4);
     tmp.writeUInt32LE(buf.length, 0);
-    return Buffer.concat([Uint8Array.from([0x4e]), tmp, buf]);
+    return Buffer.concat([Buffer.from([0x4e]), tmp, buf]);
   } else {
     throw new Error('does not support bigger pushes yet');
   }
@@ -90,16 +90,16 @@ export const createOpReturnGenesis = (
   }
 
   const buf = Buffer.concat([
-    Uint8Array.from([0x6A]), // OP_RETURN
+    Buffer.from([0x6A]), // OP_RETURN
     pushdata(Buffer.from("SLP\0")),
-    pushdata(Uint8Array.from([versionType])), // versionType
+    pushdata(Buffer.from([versionType])), // versionType
     pushdata(Buffer.from("GENESIS")),
     pushdata(Buffer.from(ticker)),
     pushdata(Buffer.from(name)),
     pushdata(Buffer.from(documentUrl)),
     pushdata(documentHash),
-    pushdata(Uint8Array.from([decimals])),
-    pushdata(Uint8Array.from(mintBatonVout === null ? [] : [mintBatonVout])),
+    pushdata(Buffer.from([decimals])),
+    pushdata(Buffer.from(mintBatonVout === null ? [] : [mintBatonVout])),
     pushdata(BNToInt64BE(quantity)),
   ]);
 
@@ -139,12 +139,12 @@ export const createOpReturnMint = (
   }
 
   const buf = Buffer.concat([
-    Uint8Array.from([0x6A]), // OP_RETURN
+    Buffer.from([0x6A]), // OP_RETURN
     pushdata(Buffer.from("SLP\0")),
-    pushdata(Uint8Array.from([versionType])), // versionType
+    pushdata(Buffer.from([versionType])), // versionType
     pushdata(Buffer.from("MINT")),
     pushdata(tokenIdHex),
-    pushdata(Uint8Array.from(mintBatonVout === null ? [] : [mintBatonVout])),
+    pushdata(Buffer.from(mintBatonVout === null ? [] : [mintBatonVout])),
     pushdata(BNToInt64BE(quantity)),
   ]);
 
@@ -184,9 +184,9 @@ export const createOpReturnSend = (
   }
 
   const buf = Buffer.concat([
-    Uint8Array.from([0x6A]), // OP_RETURN
+    Buffer.from([0x6A]), // OP_RETURN
     pushdata(Buffer.from("SLP\0")),
-    pushdata(Uint8Array.from([versionType])), // versionType
+    pushdata(Buffer.from([versionType])), // versionType
     pushdata(Buffer.from("SEND")),
     pushdata(tokenIdHex),
     ...slpAmounts.map(v => pushdata(BNToInt64BE(v))),
